@@ -1,7 +1,10 @@
 from datetime import datetime
+import random
 
 from django.shortcuts import render
 from django.views import View
+
+from food.models import Recipe
 
 
 class IndexView(View):
@@ -14,10 +17,20 @@ class IndexView(View):
 class LandingPage(View):
 
     def get(self, request):
-        return render(request, "index.html")
+        recipes = Recipe.objects.all()
+        three_random_recipes = list(range(0, recipes.count()))
+        random.shuffle(three_random_recipes)
+        ctx = {
+            'recipe1': recipes[three_random_recipes[0]],
+            'recipe2': recipes[three_random_recipes[1]],
+            'recipe3': recipes[three_random_recipes[2]]
+        }
+        return render(request, "index.html", ctx)
 
 
 class Recipes(View):
 
     def get(self, request):
-        return render(request, "app-recipes.html")
+        recipes = Recipe.objects.all()
+        ctx = {'recipes': recipes}
+        return render(request, "app-recipes.html", ctx)
