@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from food.views import IndexView, LandingPage
+from food.views import IndexView, LandingPage, Recipes
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test', IndexView.as_view()),
-    path('', LandingPage.as_view())
+    path('', LandingPage.as_view()),
+    path('recipes/', Recipes.as_view(), name='recipes'),
 ]

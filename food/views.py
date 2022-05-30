@@ -15,3 +15,9 @@ class LandingPage(View):
 
     def get(self, request):
         return render(request, "index.html")
+
+
+class Recipes(View):
+
+    def get(self, request):
+        return render(request, "app-recipes.html")
