@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}{% endblock title %} | Zaplanuj Jedzonko</title>
+    <title>{% block title %}{% endblock title %} | Change your diet</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Charmonman:400,700|Open+Sans:400,600,700&amp;subset=latin-ext"
@@ -18,12 +18,12 @@
     <header class="page-header">
         <nav class="navbar navbar-expand-lg justify-content-between">
             <a href="/" class="navbar-brand main-logo main-logo-smaller">
-                Zaplanuj <span>Jedzonko</span>
+                Change your <span>diet</span>
             </a>
-         <div class="d-flex justify-content-around">
-             <h4 class="text-light mr-3">Imię</h4>
-             <div class="circle-div text-center"><i class="fas fa-user icon-user"></i></div>
-         </div>
+            <div class="d-flex justify-content-around">
+                <h4 class="text-light mr-3">Imię</h4>
+                <div class="circle-div text-center"><i class="fas fa-user icon-user"></i></div>
+            </div>
         </nav>
     </header>
 
@@ -31,19 +31,19 @@
         <div class="row dashboard-nowrap">
                 <ul class="nav flex-column long-bg">
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{% url 'main_page' %}">
                                 <span>Pulpit</span>
                                 <i class="fas fa-angle-right"></i>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{% url 'recipes' %}">
                                 <span>Przepisy</span>
                                 <i class="fas fa-angle-right"></i>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href="{% url 'plans' %}">
                                 <span>Plany</span>
                                 <i class="fas fa-angle-right"></i>
                             </a>
@@ -69,7 +69,6 @@
                         </li>
                         -->
                     </ul>
-
             <div class="m-4 p-3 width-medium text-color-darker">
 
 <!-- //--------------------------- page content -------------------------// -->

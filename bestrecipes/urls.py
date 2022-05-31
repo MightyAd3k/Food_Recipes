@@ -16,11 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from food.views import IndexView, LandingPage, Recipes
+from food.views import LandingPage, RecipeList, Dashboard, AddRecipe, ModifyRecipe, PlanList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test', IndexView.as_view()),
+    # path('test', IndexView.as_view()),
+
     path('', LandingPage.as_view()),
-    path('recipes/', Recipes.as_view(), name='recipes'),
+    path('main/', Dashboard.as_view(), name='main_page'),
+
+    path('recipe/list/', RecipeList.as_view(), name='recipes'),
+    path('recipe/add/', AddRecipe.as_view(), name='add_recipe'),
+    path('recipe/<int:pk>/', ModifyRecipe.as_view(), name='recipe_details'),
+    path('recipe/modify/<int:pk>/', ModifyRecipe.as_view(), name='modify_recipe'),
+
+    path('plan/list/', PlanList.as_view(), name='plans'),
+    #path('plan/<int:pk>/', ModifyPlan.as_view(), name='plan_details'),
+    #path('plan/add/', AddPlan.as_view(), name='add_plan),
+    #path('path/add-recipe/', AddRecipeToPlan.as_view(), name='add_recipe_to_plan'),
 ]
