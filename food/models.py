@@ -12,3 +12,5 @@ class Recipe(models.Model):
     preparation_time = models.IntegerField()
     votes = models.IntegerField(default=0)
 
+    def ingredients_as_list(self):
+        return self.ingredients.split()

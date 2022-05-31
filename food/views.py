@@ -65,7 +65,6 @@ class ModifyRecipe(View):
         pass
 
 
-
 class PlanList(View):
 
     def get(self, request):

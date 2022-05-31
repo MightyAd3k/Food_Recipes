@@ -55,16 +55,9 @@
             </div>
             <div class="col-2"></div>
             <ul class="col-5 p-4 list-unstyled">
-                {{ recipe.ingredients }}
-<!--                <li>brukselka 300g</li>-->
-<!--                <li>ziemniaki 500g</li>-->
-<!--                <li>Fix Naturalnie makaronowa z szynką Knorr 1 szt.</li>-->
-<!--                <li>średnia cebula 1szt.</li>-->
-<!--                <li>ząbek czosnku 1szt.</li>-->
-<!--                <li>kiełbasa np. śląska 500g</li>-->
-<!--                <li>śmietana 18% 200 ml</li>-->
-<!--                <li>Rama Smaż jak szef kuchni, wariant klasyczny 4 łyżki</li>-->
-<!--                <li>gałązka tymianku 1 szt.</li>-->
+                {% for ingredient in recipe.ingredients_as_list %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
             </ul>
         </div>
 
