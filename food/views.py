@@ -4,7 +4,7 @@ import random
 from django.shortcuts import render
 from django.views import View
 
-from food.models import Recipe
+from food.models import Recipe, Plan
 
 
 # class IndexView(View):
@@ -32,10 +32,12 @@ class Dashboard(View):
 
     def get(self, request):
         all_recipes = Recipe.objects.all().count()
-        #all_plans = Plan.objects.all().count()
+        all_plans = Plan.objects.all().count()
+        last_added_plan = Plan.objects.last()
         ctx = {
             'all_recipes': all_recipes,
-            #'all_plans': all_plans
+            'all_plans': all_plans,
+            'last_added_plan': last_added_plan
         }
         return render(request, 'dashboard.html', ctx)
 
@@ -68,6 +70,6 @@ class ModifyRecipe(View):
 class PlanList(View):
 
     def get(self, request):
-        # plans = Plan.objects.all()
-        # ctx = {'plans': plans}
-        return render(request, "app-schedules.html")
+        plans = Plan.objects.all()
+        ctx = {'plans': plans}
+        return render(request, "app-schedules.html", ctx)
