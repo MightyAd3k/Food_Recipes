@@ -1,6 +1,7 @@
 from datetime import datetime
 import random
 
+from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
 
@@ -45,7 +46,12 @@ class Dashboard(View):
 class RecipeList(View):
 
     def get(self, request):
-        recipes = Recipe.objects.all()
+        recipes_list = Recipe.objects.all().order_by('-votes', '-created')
+        paginator = Paginator(recipes_list, 30)
+
+        page = request.GET.get('page')
+        recipes = paginator.get_page(page)
+
         ctx = {'recipes': recipes}
         return render(request, "app-recipes.html", ctx)
 
