@@ -2,7 +2,7 @@ from datetime import datetime
 import random
 
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
 from food.models import Recipe, Plan
@@ -60,6 +60,28 @@ class AddRecipe(View):
 
     def get(self, request):
         return render(request, "app-add-recipe.html")
+
+    def post(self, request):
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        preparation_time = request.POST.get('preparation_time')
+        preparation = request.POST.get('preparation')
+        ingredients = request.POST.get('ingredients')
+
+        if Recipe.objects.filter(name=name).exists():
+            return render(request, "app-add-recipe.html", {'error': 'Przepis o tej nazwie już istnieje'})
+
+        if not name or description or preparation_time or preparation or ingredients:
+            return render(request, "app-add-recipe.html", {'error1': 'Wypełnij wszystkie pola'})
+
+        Recipe.objects.create(name=name,
+                              description=description,
+                              preparation_time=preparation_time,
+                              preparation=preparation,
+                              ingredients=ingredients,
+                              )
+
+        return redirect('recipes')
 
 
 class ModifyRecipe(View):
