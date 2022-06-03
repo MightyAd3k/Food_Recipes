@@ -4,6 +4,7 @@ import random
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import DetailView
 
 from food.models import Recipe, Plan
 
@@ -101,3 +102,8 @@ class PlanList(View):
         plans = Plan.objects.all()
         ctx = {'plans': plans}
         return render(request, "app-schedules.html", ctx)
+
+
+class PlanDetailView(DetailView):
+    model = Plan
+    template_name = 'app-details-schedules.html'
