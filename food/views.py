@@ -1,4 +1,3 @@
-from datetime import datetime
 import random
 
 from django.core.paginator import Paginator
@@ -7,13 +6,6 @@ from django.views import View
 from django.views.generic import DetailView
 
 from food.models import Recipe, Plan, RecipePlan
-
-
-# class IndexView(View):
-#
-#     def get(self, request):
-#         ctx = {"actual_date": datetime.now()}
-#         return render(request, "test.html", ctx)
 
 
 class LandingPage(View):
@@ -105,7 +97,12 @@ class ModifyRecipe(View):
 class PlanList(View):
 
     def get(self, request):
-        plans = Plan.objects.all()
+        plans_list = Plan.objects.all().order_by('name')
+        paginator = Paginator(plans_list, 30)
+
+        page = request.GET.get('page')
+        plans = paginator.get_page(page)
+
         ctx = {'plans': plans}
         return render(request, "app-schedules.html", ctx)
 

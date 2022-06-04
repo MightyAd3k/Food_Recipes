@@ -40,26 +40,28 @@
                     </h2>
 
                     {% for day in days %}
-                    {% if day|length != 0 %}
-                    <table class="table">
-                        <thead>
-                            <tr class="d-flex">
-                                <th class="col-2">{{ day.first.day_name }}</th>
-                                <th class="col-8"></th>
-                                <th class="col-2"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for meal in day %}
-                            <tr class="d-flex">
-                                <td class="col-2">{{ meal.meal_name }}</td>
-                                <td class="col-8">{{ meal.recipe }}</td>
-                                <td class="col-2"><button type="button" class="btn btn-primary rounded-0">Szczegóły</button></td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    {% endif %}
+                        {% if day|length != 0 %}
+                            <table class="table">
+                                <thead>
+                                    <tr class="d-flex">
+                                        <th class="col-2">{{ day.first.day_name }}</th>
+                                        <th class="col-8"></th>
+                                        <th class="col-2"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for meal in day %}
+                                        <tr class="d-flex">
+                                            <td class="col-2">{{ meal.meal_name }}</td>
+                                            <td class="col-8">{{ meal.recipe }}</td>
+                                            <td class="col-3 d-flex align-items-center justify-content-center flex-wrap">
+                                                <a href="{% url 'recipe_details' pk=meal.recipe.id %}" class="btn btn-primary rounded-1">Szczegóły</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
                     {% endfor %}
 
                 </div>

@@ -39,6 +39,31 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        {% if plans.has_other_pages %}
+            <div class="btn-group pagination justify-content-center" role="group" aria-label="Item pagination">
+                {% if plans.has_previous %}
+                    <a href="?page={{ recipes.previous_page_number }}" class="btn btn-outline-primary">&laquo;</a>
+                {% endif %}
+
+                {% for page_number in plans.paginator.page_range %}
+                    {% if plans.number == page_number %}
+                        <button class="btn btn-outline-primary active">
+                            <span>{{ page_number }} <span class="sr-only">(current)</span></span>
+                        </button>
+                    {% else %}
+                        <a href="?page={{ page_number }}" class="btn btn-outline-primary">
+                            {{ page_number }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if plans.has_next %}
+                    <a href="?page={{ recipes.next_page_number }}" class="btn btn-outline-primary">&raquo;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
     </div>
 </div>
 {% endblock content %}
