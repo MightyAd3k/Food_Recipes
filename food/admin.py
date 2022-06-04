@@ -20,4 +20,4 @@ class NameOfTheDayAdmin(admin.ModelAdmin):
 
 @admin.register(RecipePlan)
 class RecipePlanAdmin(admin.ModelAdmin):
-    list_display = ['meal_name', 'order']
+    list_display = ['meal_name', 'order', 'day_name']

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Recipe(models.Model):
@@ -25,7 +26,10 @@ class Plan(models.Model):
     recipes = models.ManyToManyField(Recipe, through='RecipePlan')
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name} {self.description}'
+
+    # def get_absolute_url(self):
+    #     return reverse('app-details-schedules.html', args=(self.pk, ))
 
 
 class NameOfTheDay(models.Model):
@@ -42,3 +46,9 @@ class RecipePlan(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     day_name = models.ForeignKey(NameOfTheDay, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.meal_name} {self.order} {self.recipe} {self.day_name}'
+
+    # def get_absolute_url(self):
+    #     return reverse('app-details-schedules', args=(self.pk, ))

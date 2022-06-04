@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import DetailView
 
-from food.models import Recipe, Plan
+from food.models import Recipe, Plan, RecipePlan
 
 
 # class IndexView(View):
@@ -104,6 +104,21 @@ class PlanList(View):
         return render(request, "app-schedules.html", ctx)
 
 
-class PlanDetailView(DetailView):
-    model = Plan
-    template_name = 'app-details-schedules.html'
+class PlanDetailView(View):
+
+    def get(self, request, pk):
+        plan = Plan.objects.get(pk=pk)
+        lst_recipes = []
+        for i in range(7):
+            lst_recipes.append(RecipePlan.objects.filter(plan_id__exact=pk, day_name_id__exact=i+1))
+
+        ctx = {
+            'plan': plan,
+            'days': lst_recipes
+        }
+        return render(request, 'app-details-schedules.html', ctx)
+
+
+# class RecipePlanDetailView(DetailView):
+#     model = RecipePlan
+#     template_name = 'app-details-schedules.html'
