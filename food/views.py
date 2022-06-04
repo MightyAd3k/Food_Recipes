@@ -3,7 +3,7 @@ import random
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 
 from food.models import Recipe, Plan, RecipePlan
 
@@ -83,15 +83,25 @@ class AddRecipe(View):
         return redirect('recipes')
 
 
-class ModifyRecipe(View):
+# class ModifyRecipe(View):
+#
+#     def get(self, request, pk):
+#         recipe = Recipe.objects.get(pk=pk)
+#         ctx = {'recipe': recipe}
+#         return render(request, "app-recipe-details.html", ctx)
+#
+#     def post(self, request, pk):
+#         pass
 
-    def get(self, request, pk):
-        recipe = Recipe.objects.get(pk=pk)
-        ctx = {'recipe': recipe}
-        return render(request, "app-recipe-details.html", ctx)
+class RecipeDetailView(DetailView):
+    model = Recipe
+    template_name = 'app-recipe-details.html'
 
-    def post(self, request, pk):
-        pass
+
+class RecipeUpdateView(UpdateView):
+    model = Recipe
+    fields = '__all__'
+    template_name = 'app-edit-recipe.html'
 
 
 class PlanList(View):
