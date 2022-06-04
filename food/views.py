@@ -36,10 +36,16 @@ class Dashboard(View):
         all_recipes = Recipe.objects.all().count()
         all_plans = Plan.objects.all().count()
         last_added_plan = Plan.objects.last()
+
+        lst_days = []
+        for i in range(7):
+            lst_days.append(RecipePlan.objects.filter(plan_id=last_added_plan, day_name_id=i + 1))
+
         ctx = {
             'all_recipes': all_recipes,
             'all_plans': all_plans,
-            'last_added_plan': last_added_plan
+            'last_added_plan': last_added_plan,
+            'days': lst_days
         }
         return render(request, 'dashboard.html', ctx)
 
@@ -108,13 +114,13 @@ class PlanDetailView(View):
 
     def get(self, request, pk):
         plan = Plan.objects.get(pk=pk)
-        lst_recipes = []
+        lst_days = []
         for i in range(7):
-            lst_recipes.append(RecipePlan.objects.filter(plan_id__exact=pk, day_name_id__exact=i+1))
+            lst_days.append(RecipePlan.objects.filter(plan_id=pk, day_name_id=i + 1))
 
         ctx = {
             'plan': plan,
-            'days': lst_recipes
+            'days': lst_days
         }
         return render(request, 'app-details-schedules.html', ctx)
 
