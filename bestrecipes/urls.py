@@ -17,19 +17,19 @@ from django.contrib import admin
 from django.urls import path
 
 from food.views import LandingPage, RecipeList, Dashboard, AddRecipe, PlanList, PlanDetailView, \
-    RecipeUpdateView, RecipeDetailView
+    UpdateRecipe, RecipeDetails, DeleteRecipe
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('test', IndexView.as_view()),
 
     path('', LandingPage.as_view()),
     path('main/', Dashboard.as_view(), name='main_page'),
 
     path('recipe/list/', RecipeList.as_view(), name='recipes'),
     path('recipe/add/', AddRecipe.as_view(), name='add_recipe'),
-    path('recipe/<int:pk>/', RecipeDetailView.as_view(), name='recipe_details'),
-    path('recipe/modify/<int:pk>/', RecipeUpdateView.as_view(), name='modify_recipe'),
+    path('recipe/<int:pk>/', RecipeDetails.as_view(), name='recipe_details'),
+    path('recipe/modify/<int:pk>/', UpdateRecipe.as_view(), name='update_recipe'),
+    path('recipe/delete/<int:pk>/', DeleteRecipe.as_view(), name='delete_recipe'),
 
     path('plan/list/', PlanList.as_view(), name='plans'),
     path('plan/<int:pk>/', PlanDetailView.as_view(), name='plan_details'),

@@ -3,7 +3,7 @@ from django.urls import reverse
 
 
 class Recipe(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, null=False)
     ingredients = models.TextField()
     description = models.TextField()
     preparation = models.TextField()
@@ -28,9 +28,6 @@ class Plan(models.Model):
     def __str__(self):
         return f'{self.name} {self.description}'
 
-    # def get_absolute_url(self):
-    #     return reverse('app-details-schedules.html', args=(self.pk, ))
-
 
 class NameOfTheDay(models.Model):
     name = models.CharField(max_length=10)
@@ -49,6 +46,3 @@ class RecipePlan(models.Model):
 
     def __str__(self):
         return f'{self.meal_name} {self.order} {self.recipe} {self.day_name}'
-
-    # def get_absolute_url(self):
-    #     return reverse('app-details-schedules', args=(self.pk, ))

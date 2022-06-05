@@ -3,7 +3,6 @@ import random
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import DetailView, UpdateView
 
 from food.models import Recipe, Plan, RecipePlan
 
@@ -55,6 +54,14 @@ class RecipeList(View):
         return render(request, "app-recipes.html", ctx)
 
 
+class RecipeDetails(View):
+
+    def get(self, request, pk):
+        recipe = Recipe.objects.get(pk=pk)
+        ctx = {'recipe': recipe}
+        return render(request, "app-recipe-details.html", ctx)
+
+
 class AddRecipe(View):
 
     def get(self, request):
@@ -70,7 +77,7 @@ class AddRecipe(View):
         if Recipe.objects.filter(name=name).exists():
             return render(request, "app-add-recipe.html", {'error': 'Przepis o tej nazwie już istnieje'})
 
-        if not name or description or preparation_time or preparation or ingredients:
+        if name == '' or description == '' or preparation_time == '' or preparation == '' or ingredients == '':
             return render(request, "app-add-recipe.html", {'error1': 'Wypełnij wszystkie pola'})
 
         Recipe.objects.create(name=name,
@@ -83,25 +90,43 @@ class AddRecipe(View):
         return redirect('recipes')
 
 
-# class ModifyRecipe(View):
-#
-#     def get(self, request, pk):
-#         recipe = Recipe.objects.get(pk=pk)
-#         ctx = {'recipe': recipe}
-#         return render(request, "app-recipe-details.html", ctx)
-#
-#     def post(self, request, pk):
-#         pass
+class UpdateRecipe(View):
 
-class RecipeDetailView(DetailView):
-    model = Recipe
-    template_name = 'app-recipe-details.html'
+    def get(self, request, pk):
+        recipe = Recipe.objects.get(pk=pk)
+        ctx = {'recipe': recipe}
+        return render(request, "app-edit-recipe.html", ctx)
+
+    def post(self, request, pk):
+        recipe = Recipe.objects.get(pk=pk)
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        preparation_time = request.POST.get('preparation_time')
+        preparation = request.POST.get('preparation')
+        ingredients = request.POST.get('ingredients')
+
+        if name != recipe.name and Recipe.objects.filter(name=name).first():
+            return render(request, "app-edit-recipe.html", {'recipe': recipe, 'error': 'Przepis o tej nazwie już istnieje'})
+
+        if description == '' or preparation_time == '' or preparation == '' or ingredients == '':
+            return render(request, "app-edit-recipe.html", {'recipe': recipe, 'error1': 'Wypełnij wszystkie pola'})
+
+        recipe.name = name
+        recipe.description = description
+        recipe.preparation_time = preparation_time
+        recipe.preparation = preparation
+        recipe.ingredients = ingredients
+        recipe.save()
+
+        return redirect('recipes')
 
 
-class RecipeUpdateView(UpdateView):
-    model = Recipe
-    fields = '__all__'
-    template_name = 'app-edit-recipe.html'
+class DeleteRecipe(View):
+
+    def get(self, request, pk):
+        recipe = Recipe.objects.get(pk=pk)
+        recipe.delete()
+        return redirect('recipes')
 
 
 class PlanList(View):
