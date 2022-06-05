@@ -61,6 +61,20 @@ class RecipeDetails(View):
         ctx = {'recipe': recipe}
         return render(request, "app-recipe-details.html", ctx)
 
+    def post(self, request, pk):
+        recipe = Recipe.objects.get(pk=pk)
+
+        if 'like' in request.POST:
+            recipe.votes += 1
+            recipe.save()
+
+        else:
+            recipe.votes -= 1
+            recipe.save()
+
+        ctx = {'recipe': recipe}
+        return render(request, "app-recipe-details.html", ctx)
+
 
 class AddRecipe(View):
 

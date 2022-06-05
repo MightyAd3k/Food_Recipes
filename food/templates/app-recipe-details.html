@@ -5,11 +5,15 @@
 
     <div class="mt-4 ml-4 mr-4">
         <div class="row border-bottom border-3">
-            <div class="col"><h3 class="color-header text-uppercase">Szczegóły
-                przepisu</h3></div>
-            <div class="col d-flex justify-content-end mb-2">
-                <a href="{% url 'recipes' %}" class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
-            </div>
+            <div class="col"><h3 class="color-header text-uppercase">Szczegóły przepisu</h3></div>
+            <form method="post" action=""> {% csrf_token %}
+                <div class="col d-flex justify-content-end mb-2">
+                    <input type="hidden" name="recipe_id" value="{{ recipe_id.id }}">
+                    <button type="submit" name="like" class="btn btn-success pt-0 pb-0 pr-4 pl-4 mr-1" >Lubię przepis</button>
+                    <button type="submit" name="dislike" class="btn btn-danger pt-0 pb-0 pr-4 pl-4 mr-1">Nie lubię przepisu</button>
+                    <a href="{% url 'recipes' %}" class="btn btn-color rounded-1 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                </div>
+            </form>
         </div>
 
         <table class="table borderless">
