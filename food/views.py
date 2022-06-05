@@ -156,7 +156,7 @@ class PlanList(View):
         return render(request, "app-schedules.html", ctx)
 
 
-class PlanDetailView(View):
+class PlanDetails(View):
 
     def get(self, request, pk):
         plan = Plan.objects.get(pk=pk)
@@ -171,6 +171,22 @@ class PlanDetailView(View):
         return render(request, 'app-details-schedules.html', ctx)
 
 
-# class RecipePlanDetailView(DetailView):
-#     model = RecipePlan
-#     template_name = 'app-details-schedules.html'
+class AddPlan(View):
+
+    def get(self, request):
+        return render(request, 'app-add-schedules.html')
+
+    def post(self, request):
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+
+        if Plan.objects.filter(name=name).exists():
+            return render(request, 'app-add-schedules.html', {'error': 'Taki plan już istnieje'})
+
+        if name == '' or description == '':
+            return render(request, 'app-add-schedules.html', {'error1': 'Wypełnij wszytkie pola'})
+
+        Plan.objects.create(name=name, description=description)
+
+        return redirect('plans')
+

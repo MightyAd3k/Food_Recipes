@@ -20,7 +20,7 @@ class Recipe(models.Model):
 
 
 class Plan(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, null=False)
     description = models.TextField()
     created = models.DateTimeField(auto_now=True, null=True, blank=True)
     recipes = models.ManyToManyField(Recipe, through='RecipePlan')

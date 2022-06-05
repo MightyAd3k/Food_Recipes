@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from food.views import LandingPage, RecipeList, Dashboard, AddRecipe, PlanList, PlanDetailView, \
-    UpdateRecipe, RecipeDetails, DeleteRecipe
+from food.views import LandingPage, RecipeList, Dashboard, AddRecipe, PlanList, PlanDetails, \
+    UpdateRecipe, RecipeDetails, DeleteRecipe, AddPlan
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,7 +32,7 @@ urlpatterns = [
     path('recipe/delete/<int:pk>/', DeleteRecipe.as_view(), name='delete_recipe'),
 
     path('plan/list/', PlanList.as_view(), name='plans'),
-    path('plan/<int:pk>/', PlanDetailView.as_view(), name='plan_details'),
-    #path('plan/add/', AddPlan.as_view(), name='add_plan),
+    path('plan/<int:pk>/', PlanDetails.as_view(), name='plan_details'),
+    path('plan/add/', AddPlan.as_view(), name='add_plan'),
     #path('path/add-recipe/', AddRecipeToPlan.as_view(), name='add_recipe_to_plan'),
 ]
