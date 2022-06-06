@@ -26,7 +26,7 @@ class Plan(models.Model):
     recipes = models.ManyToManyField(Recipe, through='RecipePlan')
 
     def __str__(self):
-        return f'{self.name} {self.description}'
+        return f'{self.name}'
 
 
 class NameOfTheDay(models.Model):

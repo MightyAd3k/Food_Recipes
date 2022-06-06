@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
 
-from food.models import Recipe, Plan, RecipePlan
+from food.models import Recipe, Plan, RecipePlan, NameOfTheDay
 
 
 class LandingPage(View):
@@ -189,4 +189,40 @@ class AddPlan(View):
         Plan.objects.create(name=name, description=description)
 
         return redirect('plans')
+
+
+class AddRecipeToPlan(View):
+
+    def get(self, request):
+        recipes = Recipe.objects.all()
+        plans = Plan.objects.all()
+        days = NameOfTheDay.objects.all()
+
+        ctx = {'recipes': recipes,
+               'plans': plans,
+               'days': days
+               }
+
+        return render(request, 'app-add-recipe-to-schedule.html', ctx)
+
+    def post(self, request):
+        plan_id = request.POST.get('plan')
+        plan = Plan.objects.get(pk=plan_id)
+        meal_name = request.POST.get('meal_name')
+        order = request.POST.get('meal_number')
+        recipe_id = request.POST.get('recipe')
+        recipe = Recipe.objects.get(pk=recipe_id)
+        day_id = request.POST.get('day')
+        day = NameOfTheDay.objects.get(pk=day_id)
+
+        RecipePlan.objects.create(meal_name=meal_name,
+                                  order=order,
+                                  recipe=recipe,
+                                  plan=plan,
+                                  day_name=day
+                                  )
+
+        return redirect(f'/plan/{plan_id}/')
+
+
 
