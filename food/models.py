@@ -46,3 +46,9 @@ class RecipePlan(models.Model):
 
     def __str__(self):
         return f'{self.meal_name} {self.order} {self.recipe} {self.day_name}'
+
+
+class Page(models.Model):
+    title = models.CharField(max_length=100, unique=True, null=False)
+    description = models.TextField()
+    slug = models.SlugField(max_length=100)
