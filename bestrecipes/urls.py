@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from food.views import LandingPage, RecipeList, Dashboard, AddRecipe, PlanList, PlanDetails, \
-    UpdateRecipe, RecipeDetails, DeleteRecipe, AddPlan, AddRecipeToPlan
+    UpdateRecipe, RecipeDetails, DeleteRecipe, AddPlan, AddRecipeToPlan, AboutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,4 +35,6 @@ urlpatterns = [
     path('plan/<int:pk>/', PlanDetails.as_view(), name='plan_details'),
     path('plan/add/', AddPlan.as_view(), name='add_plan'),
     path('plan/add-recipe/', AddRecipeToPlan.as_view(), name='add_recipe_to_plan'),
+
+    path('about/', AboutView.as_view(), name='about'),
 ]

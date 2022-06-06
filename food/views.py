@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.views import View
 
-from food.models import Recipe, Plan, RecipePlan, NameOfTheDay
+from food.models import Recipe, Plan, RecipePlan, NameOfTheDay, Page
 
 
 class LandingPage(View):
@@ -223,6 +223,21 @@ class AddRecipeToPlan(View):
                                   )
 
         return redirect(f'/plan/{plan_id}/')
+
+
+class AboutView(View):
+
+    def get(self, request):
+        informations = Page.objects.all()
+        information = Page.objects.all().count()
+
+        for i in range(information):
+            while informations[i].slug == 'about':
+                ctx = {
+                    'title': informations[i].title, 'description': informations[i].description
+                }
+                return render(request, 'about.html', ctx)
+            return redirect("/#about")
 
 
 

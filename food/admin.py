@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from food.models import Recipe, Plan, NameOfTheDay, RecipePlan
+from food.models import Recipe, Plan, NameOfTheDay, RecipePlan, Page
 
 
 @admin.register(Recipe)
@@ -21,3 +21,8 @@ class NameOfTheDayAdmin(admin.ModelAdmin):
 @admin.register(RecipePlan)
 class RecipePlanAdmin(admin.ModelAdmin):
     list_display = ['meal_name', 'order', 'day_name']
+
+
+@admin.register(Page)
+class PageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'slug']
