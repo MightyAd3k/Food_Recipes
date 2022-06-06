@@ -229,15 +229,27 @@ class AboutView(View):
 
     def get(self, request):
         informations = Page.objects.all()
-        information = Page.objects.all().count()
+        counter = Page.objects.all().count()
 
-        for i in range(information):
+        for i in range(counter):
             while informations[i].slug == 'about':
                 ctx = {
                     'title': informations[i].title, 'description': informations[i].description
                 }
                 return render(request, 'about.html', ctx)
-            return redirect("/#about")
+        return redirect("/#about")
 
 
+class ContactView(View):
 
+    def get(self, request):
+        contacts = Page.objects.all()
+        counter = Page.objects.all().count()
+
+        for i in range(counter):
+            while contacts[i].slug == 'contact':
+                ctx = {
+                    'title': contacts[i].title, 'description': contacts[i].description
+                }
+                return render(request, 'contact.html', ctx)
+        return redirect("/#contact")
