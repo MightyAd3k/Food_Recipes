@@ -8,6 +8,9 @@ from food.models import Recipe, Plan, RecipePlan, NameOfTheDay, Page
 
 
 class LandingPage(View):
+    """
+    The very first page of this app. Every time user enter the page will see 3 random recipes.
+    """
 
     def get(self, request):
         recipes = Recipe.objects.all()
@@ -22,6 +25,10 @@ class LandingPage(View):
 
 
 class Dashboard(View):
+    """
+    Main page where user can add his recipe to db, add new nutritional plan and add recipe to his plan.
+    There are also counters for all recipes and plans and last added plan with details.
+    """
 
     def get(self, request):
         all_recipes = Recipe.objects.all().count()
@@ -42,7 +49,9 @@ class Dashboard(View):
 
 
 class RecipeList(View):
-
+    """
+    All recipes sorted by votes and date of creation.
+    """
     def get(self, request):
         recipes_list = Recipe.objects.all().order_by('-votes', '-created')
         paginator = Paginator(recipes_list, 30)
@@ -55,6 +64,9 @@ class RecipeList(View):
 
 
 class RecipeDetails(View):
+    """
+    View where user can vote whether likes recipe or not.
+    """
 
     def get(self, request, pk):
         recipe = Recipe.objects.get(pk=pk)
@@ -120,10 +132,12 @@ class UpdateRecipe(View):
         ingredients = request.POST.get('ingredients')
 
         if name != recipe.name and Recipe.objects.filter(name=name).first():
-            return render(request, "app-edit-recipe.html", {'recipe': recipe, 'error': 'Przepis o tej nazwie już istnieje'})
+            return render(request, "app-edit-recipe.html", {'recipe': recipe,
+                                                            'error': 'Przepis o tej nazwie już istnieje'})
 
         if description == '' or preparation_time == '' or preparation == '' or ingredients == '':
-            return render(request, "app-edit-recipe.html", {'recipe': recipe, 'error1': 'Wypełnij wszystkie pola'})
+            return render(request, "app-edit-recipe.html", {'recipe': recipe,
+                                                            'error1': 'Wypełnij wszystkie pola'})
 
         recipe.name = name
         recipe.description = description
@@ -144,6 +158,9 @@ class DeleteRecipe(View):
 
 
 class PlanList(View):
+    """
+    All plans sorted by name.
+    """
 
     def get(self, request):
         plans_list = Plan.objects.all().order_by('name')
