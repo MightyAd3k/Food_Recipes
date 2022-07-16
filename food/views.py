@@ -1,3 +1,4 @@
+import getpass
 import random
 
 from django.core.paginator import Paginator
@@ -14,14 +15,17 @@ class LandingPage(View):
 
     def get(self, request):
         recipes = Recipe.objects.all()
-        three_random_recipes = list(range(0, recipes.count()))
-        random.shuffle(three_random_recipes)
-        ctx = {
-            'recipe1': recipes[three_random_recipes[0]],
-            'recipe2': recipes[three_random_recipes[1]],
-            'recipe3': recipes[three_random_recipes[2]]
-        }
-        return render(request, "index.html", ctx)
+        try:
+            three_random_recipes = list(range(0, recipes.count()))
+            random.shuffle(three_random_recipes)
+            ctx = {
+                'recipe1': recipes[three_random_recipes[0]],
+                'recipe2': recipes[three_random_recipes[1]],
+                'recipe3': recipes[three_random_recipes[2]]
+            }
+            return render(request, "index.html", ctx)
+        except IndexError:
+            return render(request, "index.html")
 
 
 class Dashboard(View):
@@ -43,7 +47,7 @@ class Dashboard(View):
             'all_recipes': all_recipes,
             'all_plans': all_plans,
             'last_added_plan': last_added_plan,
-            'days': lst_days
+            'days': lst_days,
         }
         return render(request, 'dashboard.html', ctx)
 
@@ -111,6 +115,7 @@ class AddRecipe(View):
                               preparation_time=preparation_time,
                               preparation=preparation,
                               ingredients=ingredients,
+                              user_id=request.user.id
                               )
 
         return redirect('recipes')

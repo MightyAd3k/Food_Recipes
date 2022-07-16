@@ -14,28 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-from food.views import LandingPage, RecipeList, Dashboard, AddRecipe, PlanList, PlanDetails, \
-    UpdateRecipe, RecipeDetails, DeleteRecipe, AddPlan, AddRecipeToPlan, AboutView, ContactView
+from food import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    path('', LandingPage.as_view()),
-    path('main/', Dashboard.as_view(), name='main_page'),
-
-    path('recipe/list/', RecipeList.as_view(), name='recipes'),
-    path('recipe/add/', AddRecipe.as_view(), name='add_recipe'),
-    path('recipe/<int:pk>/', RecipeDetails.as_view(), name='recipe_details'),
-    path('recipe/modify/<int:pk>/', UpdateRecipe.as_view(), name='update_recipe'),
-    path('recipe/delete/<int:pk>/', DeleteRecipe.as_view(), name='delete_recipe'),
-
-    path('plan/list/', PlanList.as_view(), name='plans'),
-    path('plan/<int:pk>/', PlanDetails.as_view(), name='plan_details'),
-    path('plan/add/', AddPlan.as_view(), name='add_plan'),
-    path('plan/add-recipe/', AddRecipeToPlan.as_view(), name='add_recipe_to_plan'),
-
-    path('about/', AboutView.as_view(), name='about'),
-    path('contact/', ContactView.as_view(), name='contact')
+    path('', views.LandingPage.as_view()),
+    path('accounts/', include('accounts.urls')),
+    path('food/', include('food.urls'))
 ]

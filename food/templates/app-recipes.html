@@ -19,7 +19,8 @@
         <tr class="d-flex text-color-darker">
             <th scope="col" class="col-1">ID</th>
             <th scope="col" class="col-2">NAZWA</th>
-            <th scope="col" class="col-7">OPIS</th>
+            <th scope="col" class="col-5">OPIS</th>
+            <th scope="col" class="col-2">AUTOR</th>
             <th scope="col" class="col-2 center">AKCJE</th>
         </tr>
         </thead>
@@ -31,13 +32,16 @@
                 <td class="col-2">
                     {{ recipe.name}} ({{ recipe.votes }})
                 </td>
-                <td class="col-7">{{ recipe.description }}
+                <td class="col-5">{{ recipe.description }}
                 </td>
                 {% if warning %}
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         {{ warning }}
                     </div>
                 {% endif %}
+                <td class="col-2">
+                    {{ recipe.user }}
+                </td>
                 <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
                     <a href="{% url 'delete_recipe' pk=recipe.id %}" class="btn btn-danger rounded-1 text-light m-1">Usuń</a>
                     <a href="{% url 'recipe_details' pk=recipe.id %}" class="btn btn-info rounded-1 text-light m-1">Szczegóły</a>

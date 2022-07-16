@@ -1,5 +1,5 @@
+from django.contrib.auth.models import User
 from django.db import models
-from django.urls import reverse
 
 
 class Recipe(models.Model):
@@ -11,6 +11,7 @@ class Recipe(models.Model):
     updated = models.DateTimeField(auto_now=True)
     preparation_time = models.IntegerField(help_text='Time in minutes')
     votes = models.IntegerField(default=0)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.name}'

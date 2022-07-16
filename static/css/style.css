@@ -276,12 +276,21 @@ margin: 0 auto !important;
 /*---- Footer section ----*/
 /*------------------------------*/
 
-.footer-section{
+.footer-section {
   background: var(--background-color);
+  bottom: 0;
+  width: 100%;
 }
 
 .footer-text-color {
   color: var(--link-color);
+}
+
+#footer {
+  background: var(--background-color);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 /*------------------------------*/
