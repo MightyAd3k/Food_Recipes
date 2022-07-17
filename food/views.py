@@ -1,11 +1,15 @@
 import getpass
 import random
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
-from food.models import Recipe, Plan, RecipePlan, NameOfTheDay, Page
+from food.models import Recipe, Plan, RecipePlan, NameOfTheDay, Page, Vote
 
 
 class LandingPage(View):
@@ -56,6 +60,7 @@ class RecipeList(View):
     """
     All recipes sorted by votes and date of creation.
     """
+
     def get(self, request):
         recipes_list = Recipe.objects.all().order_by('-votes', '-created')
         paginator = Paginator(recipes_list, 30)
@@ -79,14 +84,21 @@ class RecipeDetails(View):
 
     def post(self, request, pk):
         recipe = Recipe.objects.get(pk=pk)
+        if Vote.objects.filter(recipe_id=recipe.pk, user_id=request.user.id).exists():
+            return render(request, "app-recipe-details.html", {'recipe': recipe, 'error': 'Już zagłosowałeś'})
 
         if 'like' in request.POST:
             recipe.votes += 1
             recipe.save()
 
-        else:
+        elif 'dislike' in request.POST:
+            if recipe.votes < 1:
+                return render(request, "app-recipe-details.html", {'recipe': recipe,
+                                                                   'error': 'Nie można dawać głosów negatywnych'})
             recipe.votes -= 1
             recipe.save()
+
+        Vote.objects.create(recipe_id=recipe.pk, user_id=request.user.id)
 
         ctx = {'recipe': recipe}
         return render(request, "app-recipe-details.html", ctx)
@@ -115,7 +127,7 @@ class AddRecipe(View):
                               preparation_time=preparation_time,
                               preparation=preparation,
                               ingredients=ingredients,
-                              user_id=request.user.id
+                              author_id=request.user.id
                               )
 
         return redirect('recipes')
@@ -130,6 +142,13 @@ class UpdateRecipe(View):
 
     def post(self, request, pk):
         recipe = Recipe.objects.get(pk=pk)
+
+        try:
+            recipe = Recipe.objects.get(pk=pk, user=request.user)
+        except:
+            return render(request, "app-edit-recipe.html", {'recipe': recipe,
+                                                            'error': 'Nie możesz zmodyfikować czyjegoś przepisu'})
+
         name = request.POST.get('name')
         description = request.POST.get('description')
         preparation_time = request.POST.get('preparation_time')
@@ -138,11 +157,11 @@ class UpdateRecipe(View):
 
         if name != recipe.name and Recipe.objects.filter(name=name).first():
             return render(request, "app-edit-recipe.html", {'recipe': recipe,
-                                                            'error': 'Przepis o tej nazwie już istnieje'})
+                                                            'error1': 'Przepis o tej nazwie już istnieje'})
 
         if description == '' or preparation_time == '' or preparation == '' or ingredients == '':
             return render(request, "app-edit-recipe.html", {'recipe': recipe,
-                                                            'error1': 'Wypełnij wszystkie pola'})
+                                                            'error2': 'Wypełnij wszystkie pola'})
 
         recipe.name = name
         recipe.description = description

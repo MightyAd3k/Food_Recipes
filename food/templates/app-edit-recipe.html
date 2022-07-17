@@ -20,9 +20,9 @@
                     <th scope="row" class="col-2">Nazwa Przepisu</th>
                     <td class="col-7">
                         <input class="w-100 p-1" name="name" value="{{ recipe.name }}">
-                        {% if error %}
+                        {% if error1 %}
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                {{error}}
+                                {{error1}}
                             </div>
                         {% endif %}
                     </td>
@@ -60,13 +60,19 @@
                     <textarea class="w-100 p-1" rows="10" name="ingredients">{{ recipe.ingredients }}</textarea>
                 </div>
             </div>
-            {% if error1 %}
+            {% if error2 %}
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    {{error1}}
+                    {{error2}}
                 </div>
             {% endif %}
         </div>
     </form>
+
+    {% if error %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{error}}
+    </div>
+    {% endif %}
 
 </div>
 {% endblock content %}

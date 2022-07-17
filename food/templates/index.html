@@ -33,12 +33,18 @@
                 <li class="nav-item ml-4">
                     <a class="nav-link disabled" href="{% url 'contact' %}">Kontakt</a>
                 </li>
+                {% if not user.is_authenticated %}
                 <li class="nav-item ml-4">
                     <a class="nav-link color-header" href="{% url 'login' %}">Logowanie</a>
                 </li>
                 <li class="nav-item ml-4">
                     <a class="nav-link color-header" href="{% url 'register' %}">Rejestracja</a>
                 </li>
+                {% elif user.is_authenticated %}
+                <li class="nav-item ml-4">
+                    <a class="nav-link color-header" href="{% url 'logout' %}">Wyloguj</a>
+                </li>
+                {% endif %}
             </ul>
         </nav>
     </header>

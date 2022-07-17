@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.views import View
@@ -41,3 +41,8 @@ def login_request(request):
     form = AuthenticationForm()
     ctx = {'login_form': form}
     return render(request, 'login.html', ctx)
+
+
+def logout_request(request):
+    logout(request)
+    return redirect('/')

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -9,22 +10,27 @@ class Recipe(models.Model):
     preparation = models.TextField()
     created = models.DateField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    preparation_time = models.IntegerField(help_text='Time in minutes')
+    preparation_time = models.IntegerField(help_text="Time in minutes")
+    author = models.OneToOneField(User, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.name}'
+        return f"{self.name}"
 
     def ingredients_as_list(self):
-        return self.ingredients.split(',')
+        return self.ingredients.split(",")
+
+
+class Vote(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Plan(models.Model):
     name = models.CharField(max_length=30, null=False)
     description = models.TextField()
     created = models.DateTimeField(auto_now=True, null=True, blank=True)
-    recipes = models.ManyToManyField(Recipe, through='RecipePlan')
+    recipes = models.ManyToManyField(Recipe, through="RecipePlan")
 
     def __str__(self):
         return f'{self.name}'
@@ -35,7 +41,7 @@ class NameOfTheDay(models.Model):
     order = models.IntegerField(unique=True)
 
     def __str__(self):
-        return f'{self.name}'
+        return f"{self.name}"
 
 
 class RecipePlan(models.Model):
