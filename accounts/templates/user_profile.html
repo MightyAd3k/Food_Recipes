@@ -1,0 +1,14 @@
+{% extends "__base__.html" %}
+
+{% block content %}
+
+<div class="container text-center py-5">
+    <h1>{{ user.username }}</h1>
+    <p>{{ user.first_name }}</p>
+    <p>{{ user.last_name }}</p>
+    <p>{{ user.email }}</p>
+
+    <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edytuj dane</a>
+</div>
+
+{% endblock %}
