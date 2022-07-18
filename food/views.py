@@ -87,21 +87,22 @@ class RecipeDetails(View):
         if Vote.objects.filter(recipe_id=recipe.pk, user_id=request.user.id).exists():
             return render(request, "app-recipe-details.html", {'recipe': recipe, 'error': 'Już zagłosowałeś'})
 
-        if 'like' in request.POST:
-            recipe.votes += 1
-            recipe.save()
+        else:
+            if 'like' in request.POST:
+                recipe.votes += 1
+                recipe.save()
 
-        elif 'dislike' in request.POST:
-            if recipe.votes < 1:
-                return render(request, "app-recipe-details.html", {'recipe': recipe,
-                                                                   'error': 'Nie można dawać głosów negatywnych'})
-            recipe.votes -= 1
-            recipe.save()
+            elif 'dislike' in request.POST:
+                if recipe.votes < 1:
+                    return render(request, "app-recipe-details.html", {'recipe': recipe,
+                                                                       'error': 'Nie można dawać głosów negatywnych'})
+                recipe.votes -= 1
+                recipe.save()
 
-        Vote.objects.create(recipe_id=recipe.pk, user_id=request.user.id)
+            Vote.objects.create(recipe_id=recipe.pk, user_id=request.user.id)
 
-        ctx = {'recipe': recipe}
-        return render(request, "app-recipe-details.html", ctx)
+            ctx = {'recipe': recipe}
+            return render(request, "app-recipe-details.html", ctx)
 
 
 class AddRecipe(View):
