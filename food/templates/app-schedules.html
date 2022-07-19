@@ -5,12 +5,12 @@
 
     <div class="row border-bottom border-3 p-1 m-1">
         <div class="col noPadding">
-            <h3 class="color-header text-uppercase">List of Plans</h3>
+            <h3 class="color-header text-uppercase">Lista planów</h3>
         </div>
         <div class="col noPadding d-flex justify-content-end mb-2">
-            <a href="{% url 'add_recipe' %}" id="btn1" class="btn btn-success rounded-1 pt-1 pb-0 pr-4 pl-4">Add Recipe</a>
+            <a href="{% url 'add_recipe' %}" id="btn1" class="btn btn-success rounded-1 pt-1 pb-0 pr-4 pl-4">Dodaj przepis</a>
             &nbsp;
-            <a href="{% url 'add_recipe_to_plan' %}" id="btn2" class="btn btn-success rounded-1 pt-1 pb-0 pr-4 pl-4">Add Recipe to Plan</a>
+            <a href="{% url 'add_recipe_to_plan' %}" id="btn2" class="btn btn-success rounded-1 pt-1 pb-0 pr-4 pl-4">Dodaj przepis do planu</a>
         </div>
     </div>
 
@@ -19,9 +19,9 @@
             <thead>
             <tr class="d-flex">
                 <th class="col-1">ID</th>
-                <th class="col-2">NAME</th>
-                <th class="col-7">DESCRIPTION</th>
-                <th class="col-2 center">ACTIONS</th>
+                <th class="col-2">NAZWA</th>
+                <th class="col-7">OPIS</th>
+                <th class="col-2 center">AKCJE</th>
             </tr>
             </thead>
             <tbody class="text-color-lighter">
@@ -33,9 +33,9 @@
                             {{ plan.description }}
                         </td>
                         <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                            <a href="" class="btn btn-danger rounded-1 text-light m-1">Delete</a>
-                            <a href="{% url 'plan_details' pk=plan.id %}" class="btn btn-info rounded-1 text-light m-1">Details</a>
-                            <a href="" class="btn btn-warning rounded-1 text-light m-1">Edit</a>
+                            <a href="" class="btn btn-danger rounded-1 text-light m-1">Usuń</a>
+                            <a href="{% url 'plan_details' pk=plan.id %}" class="btn btn-info rounded-1 text-light m-1">Szczegóły</a>
+                            <a href="" class="btn btn-warning rounded-1 text-light m-1">Edytuj</a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -68,4 +68,5 @@
 
     </div>
 </div>
+
 {% endblock content %}

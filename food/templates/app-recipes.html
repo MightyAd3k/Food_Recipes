@@ -1,11 +1,12 @@
 {% extends "__base__.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-<div class="dashboard-content border-dashed p-3 m-4 view-height">
 
+<div class="dashboard-content border-dashed p-3 m-4 view-height">
     <div class="row border-bottom border-3 p-1 m-1">
-        <div class="col noPadding"><h3 class="color-header text-uppercase">Lista
-            Przepisów</h3></div>
+        <div class="col noPadding">
+            <h3 class="color-header text-uppercase">Lista Przepisów</h3>
+        </div>
         <div class="col noPadding d-flex justify-content-end mb-2">
             <a href="{% url 'add_recipe' %}" id="btn1" class="btn btn-success rounded-1 pt-1 pb-0 pr-4 pl-4">Dodaj przepis</a>
             &nbsp;
@@ -58,7 +59,7 @@
     {% if recipes.has_other_pages %}
         <div class="btn-group pagination justify-content-center" role="group" aria-label="Item pagination">
             {% if recipes.has_previous %}
-                <a href="?page={{ recipes.previous_page_number }}" class="btn btn-outline-primary">&laquo;</a>
+                <a href="?page={{ recipes.previous_page_number }}" class="btn btn-outline-primary">&laquo</a>
             {% endif %}
 
             {% for page_number in recipes.paginator.page_range %}
@@ -78,7 +79,6 @@
             {% endif %}
         </div>
     {% endif %}
-
-
 </div>
+
 {% endblock content %}

@@ -1,8 +1,8 @@
 {% extends "__base__.html" %}
 {% block title %}{% endblock title %}
 {% block content %}
-<div class="dashboard-content border-dashed p-3 m-4 view-height">
 
+<div class="dashboard-content border-dashed p-3 m-4 view-height">
     <form method="post">{% csrf_token %}
         <div class="mt-4 ml-4 mr-4">
             <div class="row border-bottom border-3">
@@ -75,4 +75,5 @@
     {% endif %}
 
 </div>
+
 {% endblock content %}
