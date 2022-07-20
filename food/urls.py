@@ -14,6 +14,9 @@ urlpatterns = [
     path('plan/<int:pk>/', views.PlanDetails.as_view(), name='plan_details'),
     path('plan/add/', views.AddPlan.as_view(), name='add_plan'),
     path('plan/add-recipe/', views.AddRecipeToPlan.as_view(), name='add_recipe_to_plan'),
+    path('plan/modify/<int:pk>/', views.UpdatePlan.as_view(), name='update_plan'),
+    path('plan/delete/<int:pk>/', views.DeletePlan.as_view(), name='delete_plan'),
+    path('delete_recipe_from_plan/<int:plan_pk>/<int:recipe_pk>/', views.DeleteRecipeFromPlan.as_view(), name='delete_recipe_from_plan'),
 
     path('about/', views.AboutView.as_view(), name='about'),
     path('contact/', views.ContactView.as_view(), name='contact')

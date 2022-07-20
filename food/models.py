@@ -11,7 +11,7 @@ class Recipe(models.Model):
     created = models.DateField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     preparation_time = models.IntegerField(help_text="Time in minutes")
-    author = models.OneToOneField(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     votes = models.IntegerField(default=0)
 
     def __str__(self):
@@ -30,6 +30,7 @@ class Plan(models.Model):
     name = models.CharField(max_length=30, null=False)
     description = models.TextField()
     created = models.DateTimeField(auto_now=True, null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     recipes = models.ManyToManyField(Recipe, through="RecipePlan")
 
     def __str__(self):

@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'bestrecipes.settings'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
@@ -115,6 +116,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 try:
     from bestrecipes.local_settings import DATABASES

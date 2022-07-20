@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from food.models import Recipe, Plan, RecipePlan, NameOfTheDay, Page, Vote
@@ -144,9 +144,7 @@ class UpdateRecipe(View):
     def post(self, request, pk):
         recipe = Recipe.objects.get(pk=pk)
 
-        try:
-            recipe = Recipe.objects.get(pk=pk, user=request.user)
-        except:
+        if not Recipe.objects.get(pk=pk, author=request.user):
             return render(request, "app-edit-recipe.html", {'recipe': recipe,
                                                             'error': 'Nie możesz zmodyfikować czyjegoś przepisu'})
 
@@ -228,7 +226,39 @@ class AddPlan(View):
         if name == '' or description == '':
             return render(request, 'app-add-schedules.html', {'error1': 'Wypełnij wszytkie pola'})
 
-        Plan.objects.create(name=name, description=description)
+        Plan.objects.create(name=name, description=description, author_id=request.user.id)
+
+        return redirect('plans')
+
+
+class UpdatePlan(View):
+
+    def get(self, request, pk):
+        plan = Plan.objects.get(pk=pk)
+        ctx = {'plan': plan}
+        return render(request, "app-edit-schedules.html", ctx)
+
+    def post(self, request, pk):
+        plan = Plan.objects.get(pk=pk)
+
+        if not Plan.objects.get(pk=pk, author=request.user):
+            return render(request, "app-edit-recipe.html", {'plan': plan,
+                                                            'error': 'Nie możesz zmodyfikować czyjegoś planu'})
+
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+
+        if name != plan.name and Plan.objects.filter(name=name).first():
+            return render(request, "app-edit-recipe.html", {'plan': plan,
+                                                            'error': 'Plan o tej nazwie już istnieje'})
+
+        if name == '' or description == '':
+            return render(request, "app-edit-recipe.html", {'plan': plan,
+                                                            'error': 'Wypełnij wszystkie pola'})
+
+        plan.name = name
+        plan.description = description
+        plan.save()
 
         return redirect('plans')
 
@@ -244,7 +274,6 @@ class AddRecipeToPlan(View):
                'plans': plans,
                'days': days
                }
-
         return render(request, 'app-add-recipe-to-schedule.html', ctx)
 
     def post(self, request):
@@ -264,7 +293,24 @@ class AddRecipeToPlan(View):
                                   day_name=day
                                   )
 
-        return redirect(f'/plan/{plan_id}/')
+        return redirect(f'/food/plan/{plan_id}')
+
+
+class DeletePlan(View):
+
+    def get(self, request, pk):
+        plan = Plan.objects.get(pk=pk)
+        plan.delete()
+        return redirect('plans')
+
+
+class DeleteRecipeFromPlan(View):
+
+    def get(self, request, plan_pk, recipe_pk):
+        plan = Plan.objects.get(pk=plan_pk)
+        recipe = Recipe.objects.get(pk=recipe_pk)
+        plan.recipes.remove(recipe)
+        return redirect('plans')
 
 
 class AboutView(View):
